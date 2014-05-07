@@ -1,0 +1,22 @@
+rule "Notify when ZM alarm happens"
+when
+	Item ZM_testAlarm received update ON
+then
+	var String msg = "Sensor '"
+	
+    logInfo("ZM_ALARM", "Alarm received!")
+    /*
+    	var members = Group_Sensors_Internal.allMembers
+    	if (Surveillance.state == 2) {
+    		members = Group_Sensors_External.allMembers
+    	}	
+    	for (member : members) {
+    		if (member instanceof ContactItem && member.state == OPEN) {
+    			msg = msg + member.name + ", "
+    		}
+    	}		
+    	// remove superfluous comma und blank
+    	msg = msg.substring(0, msg.length-2)	
+    	pushNotification("Alarm", msg + "' detects movement!", 2)
+    */
+end
