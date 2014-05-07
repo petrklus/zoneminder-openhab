@@ -1,0 +1,4 @@
+Group ZoneMinder
+
+Switch     ZM_testAlarm           "ZoneMinder Alarm"                (ZoneMinder)
+Number     ZM_testAlarmCounter    "Alarms in last 24 hours [%d]"    (ZoneMinder)

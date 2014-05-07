@@ -1,21 +1,16 @@
 #!/usr/bin/php
 <?php
 /*
-THIS SCRIPT SERVES TWO PURPOSES.  THE FIRST HALF IS USED TO SOUND A DOORBELL WHEN A
-NEW EVENT IS DETECTED. BY DEFAULT ZONEMINDER MONITOR 1 IS USED FOR THIS AS THATS MY
-MONITOR THAT WATCHES THE FRONT DRIVE.
+Author: Petr Klus
+INITIAL SCRIPT FROM: https://code.google.com/p/openhab-samples/wiki/integration
 
-**** CHECK THE SWITCH STATEMENT IN THE "CHECK FOR EVENTS" SECTION BELOW, BE SURE TO
-USE THE RIGHT MONITOR ID (SEE THE COMMENTS) ****
-
-THE SECOND HALF OF THE SCRIPT HARVESTS THE NUMBER OF EVENTS IN THE LAST 24 HOURS FOR
-ANY NUMBER OF ZONEMINDER MONITORS AND PASSES THE COUNTS TO OPENHAB
 */
 
 //THIS ARRAY CONTAINS THE MONITOR IDS AND THE OPENHAB ITEMS YOU WANT TO UPDATE.  THE OPENHAB ITEM IS A SIMPLE NUMBER ITEM THAT STORES THE COUNT
+
 $oh_items = array(
-                   0 => array(
-                        'monitorId' => '0', 
+                   1 => array(
+                        'monitorId' => '1', 
                         'openhabItem' => 'ZM_testAlarm',                         
                         'openhabItemCounter' => 'ZM_testAlarmCounter', 
                         'lastCount' => 0
@@ -70,9 +65,10 @@ if (mysqli_connect_errno($con)) {
         if ($row[0] > $lastId) {
           $lastId = $row[0];
           //$row[1] IS THE MONITOR ID IN ZONEMINDER, TO FIND THIS GO TO THE ZONEMINDER WEBSITE, POINT TO THE LINK TO VIEW THE MONITOR, LOOK AT THE LINK URL, MID= IS THE MONITOR ID
-          $monitor_id = $row[1];
+          $monitor_id = intval($row[1]);
+          echo "Alarm on:".$monitor_id;
           if (array_key_exists($monitor_id, $oh_items)) {
-              doPostRequest($oh_items[$monitor_id], "ON");
+              doPostRequest($oh_items[$monitor_id]["openhabItem"], "ON");
           }
         }
       }
